@@ -19,7 +19,8 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);
 Route::get('/userProfile', [UserController::class, 'userProfile']);
-Route::post('/updateUser', [UserController::class, 'updateUser']);
+Route::patch('/updateUser', [UserController::class, 'updateUser']);
+Route::get('/username', [UserController::class, 'checkUsername']);
 
 // Route::group([
 //     'middleware' => 'api',

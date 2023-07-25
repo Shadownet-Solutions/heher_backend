@@ -17,11 +17,13 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
+            $table->string('username')->unique()->nullable();
             $table->string('gender')->nullable();
             $table->string('phone')->nullable();
             $table->date('birthday')->nullable();
             $table->string('status')->nullable();
             $table->string('religion')->nullable();
+            $table->string('profile_image')->nullable();
             $table->string('children')->nullable();
             $table->string('smoke')->nullable();
             $table->string('drink')->nullable();

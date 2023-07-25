@@ -48,7 +48,9 @@ class AuthController extends Controller
     }
 
     public function logout(Request $request){
-        $request->user()->token()->revoke();
+        $user = $request->user();
+        $action = Auth::logout($user);
+        // $request->user()->token()->revoke();
         return response()->json([
             'status' => 'success',
             'message' => 'User successfully logged out'
@@ -61,10 +63,11 @@ class AuthController extends Controller
             'password' => 'required'
         ]);
         $credentials = request(['email', 'password']);
+
         if(!Auth::attempt($credentials)){
             return response()->json([
                 'status' => 'error',
-                'message' => 'Unauthorized'
+                'message' => 'Login Failed'
                 ], 401);
             }
             $user = $request->user();
