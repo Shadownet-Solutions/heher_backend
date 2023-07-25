@@ -21,6 +21,7 @@ Route::post('/logout', [AuthController::class, 'logout']);
 Route::get('/userProfile', [UserController::class, 'userProfile']);
 Route::patch('/updateUser', [UserController::class, 'updateUser']);
 Route::get('/username', [UserController::class, 'checkUsername']);
+Route::get('/users', [UserController::class, 'index']);
 
 // Route::group([
 //     'middleware' => 'api',
