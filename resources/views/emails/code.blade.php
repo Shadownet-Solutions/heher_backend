@@ -291,11 +291,7 @@
 						border-radius: 2.69281px;
 					">&nbsp; <table>
             <tbody style="font-size: 10px; color: #1a1a1a; font-weight: 500">
-              <tr class="logo-white" style="float: left; width: 100%; padding: 40px 44px">
-                <td>
-                  <img alt="Grey" src="https://res.cloudinary.com/abokiafrica/image/upload/v1676651101/mail%20template/logo_white.png" style="width: 120px; height: 35px" />
-                </td>
-              </tr>
+              
             </tbody>
           </table>
           <table style="width: 100%">
