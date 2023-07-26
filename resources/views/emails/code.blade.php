@@ -291,7 +291,11 @@
 						border-radius: 2.69281px;
 					">&nbsp; <table>
             <tbody style="font-size: 10px; color: #1a1a1a; font-weight: 500">
-              
+              <tr class="logo-white" style="float: left; width: 100%; padding: 40px 44px">
+                <td>
+                  
+                </td>
+              </tr>
             </tbody>
           </table>
           <table style="width: 100%">
