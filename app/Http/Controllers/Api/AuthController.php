@@ -32,7 +32,6 @@ class AuthController extends Controller
         $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users',
-            'gender' => 'required',
             'password' => 'required|min:6'
 
         ]);
@@ -40,7 +39,6 @@ class AuthController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'gender' => $request->gender,
             'password' => bcrypt($request->password)
         ]);
 
