@@ -54,25 +54,25 @@ class User extends Authenticatable implements JWTSubject
      */
     public function generateCode()
     {
-        $code = rand(1000, 9999);
+        $code = rand(1000, 999999);
   
         UserEmailCode::updateOrCreate(
             [ 'user_id' => auth()->user()->id ],
             [ 'code' => $code ]
         );
     
-        try {
+        // try {
   
             $details = [
-                'title' => 'Mail Sent from He-Her',
+                'name' => auth()->user()->name,
                 'code' => $code
             ];
              
-            Mail::to(auth()->user()->email)->send(new SendEmailCode($details));
+           return Mail::to(auth()->user()->email)->send(new SendEmailCode($details));
     
-        } catch (Exception $e) {
-            info("Error: ". $e->getMessage());
-        }
+        // } catch (Exception $e) {
+        //     info("Error: ". $e->getMessage());
+        // }
     }
      /**
      * Get the identifier that will be stored in the subject claim of the JWT.

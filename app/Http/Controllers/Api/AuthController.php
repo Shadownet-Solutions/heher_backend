@@ -78,7 +78,7 @@ class AuthController extends Controller
 
         $find = UserEmailCode::where('user_id', $id)
                         ->where('code', $request->code)
-                        ->where('updated_at', '>=', now()->subMinutes(5))
+                        ->where('updated_at', '>=', now()->subMinutes(10))
                         ->first();
           if (!is_null($find)) {
 
@@ -150,7 +150,7 @@ public function resend()
         if(!Auth::attempt($credentials)){
             return response()->json([
                 'status' => 'error',
-                'message' => 'Login Failed'
+                'message' => 'Login Failed, Invalid Credentials'
                 ], 401);
             }
             $user = $request->user();
@@ -158,7 +158,7 @@ public function resend()
             $code = auth()->user()->generateCode();
             return response()->json([
                 'status' => 'success',
-                'message' => 'A code has been sent to your email',
+                'message' => 'A code has been sent to your email Valid for 5 minutes',
                 'user_id' => $user->id,
                 //  'token' => $token,
                     

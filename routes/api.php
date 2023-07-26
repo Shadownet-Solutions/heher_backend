@@ -17,7 +17,7 @@ use App\Http\Controllers\Api\UserController;
 
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
-Route::post('/logout', [AuthController::class, 'logout']);
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::post('/completeSignIn', [AuthController::class, 'completeSignIn']);
 Route::get('/userProfile', [UserController::class, 'userProfile']);
 Route::patch('/updateUser', [UserController::class, 'updateUser']);

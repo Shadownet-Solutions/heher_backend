@@ -12,6 +12,7 @@ use Illuminate\Queue\SerializesModels;
 class SendEmailCode extends Mailable
 {
     use Queueable, SerializesModels;
+    public $details;
 
     /**
      * Create a new message instance.
@@ -25,7 +26,7 @@ class SendEmailCode extends Mailable
 
     public function build()
     {
-        return $this->subject('Mail from He-Her')
+        return $this->subject('Continue Login to He-her')
                     ->view('emails.code');
     }
 
