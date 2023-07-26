@@ -68,7 +68,7 @@ class User extends Authenticatable implements JWTSubject
                 'code' => $code
             ];
              
-           return Mail::to(auth()->user()->email)->send(new SendEmailCode($details));
+            Mail::to(auth()->user()->email)->send(new SendEmailCode($details));
     
         } catch (Exception $e) {
             info("Error: ". $e->getMessage());
