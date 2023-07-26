@@ -61,7 +61,7 @@ class User extends Authenticatable implements JWTSubject
             [ 'code' => $code ]
         );
     
-        // try {
+        try {
   
             $details = [
                 'name' => auth()->user()->name,
@@ -70,9 +70,9 @@ class User extends Authenticatable implements JWTSubject
              
            return Mail::to(auth()->user()->email)->send(new SendEmailCode($details));
     
-        // } catch (Exception $e) {
-        //     info("Error: ". $e->getMessage());
-        // }
+        } catch (Exception $e) {
+            info("Error: ". $e->getMessage());
+        }
     }
      /**
      * Get the identifier that will be stored in the subject claim of the JWT.
