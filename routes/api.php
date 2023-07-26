@@ -15,13 +15,15 @@ use App\Http\Controllers\Api\UserController;
 |
 */
 
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/register', [AuthController::class, 'register'])->name('register');
+Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/logout', [AuthController::class, 'logout']);
+Route::post('/completeSignIn', [AuthController::class, 'completeSignIn']);
 Route::get('/userProfile', [UserController::class, 'userProfile']);
 Route::patch('/updateUser', [UserController::class, 'updateUser']);
 Route::get('/username', [UserController::class, 'checkUsername']);
 Route::get('/users', [UserController::class, 'index']);
+
 
 // Route::group([
 //     'middleware' => 'api',

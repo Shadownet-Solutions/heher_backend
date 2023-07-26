@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Exception;
+use Mail;
+use App\Mail\SendEmailCode;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -43,6 +46,34 @@ class User extends Authenticatable implements JWTSubject
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /** 
+     * wrute code on method
+     * 
+     * @return response()
+     */
+    public function generateCode()
+    {
+        $code = rand(1000, 9999);
+  
+        UserEmailCode::updateOrCreate(
+            [ 'user_id' => auth()->user()->id ],
+            [ 'code' => $code ]
+        );
+    
+        try {
+  
+            $details = [
+                'title' => 'Mail Sent from He-Her',
+                'code' => $code
+            ];
+             
+            Mail::to(auth()->user()->email)->send(new SendEmailCode($details));
+    
+        } catch (Exception $e) {
+            info("Error: ". $e->getMessage());
+        }
+    }
      /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *

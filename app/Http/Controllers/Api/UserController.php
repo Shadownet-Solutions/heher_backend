@@ -74,6 +74,9 @@ class UserController extends Controller
     if ($request->has('profile_image')) {
         $user->profile_image = $request->profile_image;
     }
+    if ($request->has('cordinates')) {
+        $user->cordinates = $request->cordinates;
+    }
 
     $user->save();
 
