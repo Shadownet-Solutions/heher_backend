@@ -27,31 +27,41 @@ class AuthController extends Controller
         ]);
     }
 // register user
-    public function register(Request $request) {
+public function register(Request $request) {
 
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:6'
-
-        ]);
-
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password)
-        ]);
-
-        $token = Auth::login($user);
-
-        return response()->json([
-            'status' => 'success',
-            'message' => 'User successfully registered',
-            'user' => $user,
-            'token' => $token
-
-        ]);
+    $validator = Validator::make($request->all(), [
+        'name' => 'required|string|min:3',
+        'email' => 'required|email|unique:users',
+        'password' => 'required|string|min:6',
+    ]);
+    if ($validator->fails()) {
+        return response()->json($validator->errors(), 422);
     }
+    //if validator fails return error
+    // if ($validator->fails()) {
+    //     return response()->json([
+    //         'status' => 'error',
+    //         'message' => 'Validation failed',
+    //     ]);
+    // }
+
+    $user = User::create([
+        'name' => $request->name,
+        'email' => $request->email,
+        'password' => bcrypt($request->password)
+    ]);
+
+    $token = Auth::login($user);
+
+    return response()->json([
+        'status' => 'success',
+        'message' => 'User successfully registered',
+        'user' => $user,
+        'token' => $token
+
+    ]);
+}
+
 
     //log user out
     public function logout(Request $request){
@@ -68,10 +78,13 @@ class AuthController extends Controller
     public function completeSignIn(Request $request){
 
         
-        $request->validate([
-            'code' => 'required',
+        $validator = Validator::make($request->all(), [
+            'code' => 'required|min:5',
             'user_id' => 'required'
         ]);
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
 
         $id = $request->user_id;
         $user = User::find($id);
@@ -139,32 +152,36 @@ public function resend()
 
 
 // send otp after validating username and password
-    public function login(Request $request){
+public function login(Request $request){
        
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required'
-        ]);
-        $credentials = request(['email', 'password']);
-
-        if(!Auth::attempt($credentials)){
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Login Failed, Invalid Credentials'
-                ], 401);
-            }
-            $user = $request->user();
-            // $token = Auth::login($user);
-            $code = auth()->user()->generateCode();
-            return response()->json([
-                'status' => 'success',
-                'message' => 'A code has been sent to your email Valid for 5 minutes',
-                'user_id' => $user->id,
-                //  'token' => $token,
-                    
-                ]);
-
+    $validator = Validator::make($request->all(), [
+        'email' => 'required|email',
+        'password' => 'required|min:6',
+    ]);
+    if ($validator->fails()) {
+        return response()->json($validator->errors(), 422);
     }
+    
+    $credentials = request(['email', 'password']);
+
+    if(!Auth::attempt($credentials)){
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Login Failed, Invalid Credentials'
+            ], 401);
+        }
+        $user = $request->user();
+        // $token = Auth::login($user);
+        $code = auth()->user()->generateCode();
+        return response()->json([
+            'status' => 'success',
+            'message' => 'A code has been sent to your email Valid for 5 minutes',
+            'user_id' => $user->id,
+            //  'token' => $token,
+                
+            ]);
+
+}
 
 
     
