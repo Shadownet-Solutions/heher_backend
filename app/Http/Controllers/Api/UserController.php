@@ -18,10 +18,19 @@ class UserController extends Controller
    {
 
 
-        $user = Auth::user();
-    //    return User::find($id);
-        return response()->json($user);
-   }
+    $user = Auth::user();
+    if ($user) {
+    return response()->json([
+        'status' => 'success',
+        'user' => $user
+        ]);
+    } else {
+        return response()->json([
+            'status' => 'error',
+            'message' => 'session expired'
+            ], 401);
+        }
+}
 
    //function updateUser data
 
@@ -76,6 +85,13 @@ class UserController extends Controller
     }
     if ($request->has('cordinates')) {
         $user->cordinates = $request->cordinates;
+    }
+
+    if ($request->has('timezone')) {
+        $user->timezone = $request->timezone;
+    }
+    if ($request->has('language')) {
+            $user->language = $request->language;
     }
 
     $user->save();

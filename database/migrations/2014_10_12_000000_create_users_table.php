@@ -29,16 +29,16 @@ return new class extends Migration
             $table->string('drink')->nullable();
             $table->string('education')->nullable();
             $table->string('address')->nullable();
-            $table->string('cordinate')->nullable();
+            $table->string('cordinates')->nullable();
+            $table->string('timezone')->nullable();
+            $table->string('language')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
         });
 
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('cordinates')->nullable();
-        });
+        
     }
 
     
