@@ -142,7 +142,7 @@ public function uploadUserPhoto(Request $request){
             }
 
 //get individual user data
-public function getUser($id){
+public function getUserData($id){
     $user = User::find($id);
     if ($user) {
         return response()->json([
