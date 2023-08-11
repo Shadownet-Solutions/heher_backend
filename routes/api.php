@@ -29,6 +29,8 @@ Route::post('/changePassword', [AuthController::class, 'changePassword']);
 Route::post('/uploadUserPhoto', [UserController::class, 'uploadUserPhoto']);
 //get user photos
 Route::get('/getUserPhotos/{id}', [UserController::class, 'getUserPhotos']);
+// get individual user data
+Route::get('/getUserData/{id}', [UserController::class, 'getUserData']);
 
 
 // Route::group([

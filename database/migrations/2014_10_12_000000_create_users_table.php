@@ -32,6 +32,7 @@ return new class extends Migration
             $table->string('cordinates')->nullable();
             $table->string('timezone')->nullable();
             $table->string('language')->nullable();
+            $table->boolean('premium')->default(false);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

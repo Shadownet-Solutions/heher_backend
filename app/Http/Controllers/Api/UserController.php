@@ -141,7 +141,21 @@ public function uploadUserPhoto(Request $request){
             ]);
             }
 
-
+//get individual user data
+public function getUser($id){
+    $user = User::find($id);
+    if ($user) {
+        return response()->json([
+            'status' => 'success',
+            'user' => $user
+            ]);
+            } else {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'User not found'
+                    ], 404);
+                    }
+}
 
 //get a username and check if exist or available
 
