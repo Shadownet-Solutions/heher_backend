@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Validator;
 use App\Models\UserEmailCode;
+use Hash;
 
 class AuthController extends Controller
 {
@@ -175,13 +176,42 @@ public function login(Request $request){
         $code = auth()->user()->generateCode();
         return response()->json([
             'status' => 'success',
-            'message' => 'A code has been sent to your email Valid for 5 minutes',
+            'message' => 'A code has been sent to your email Valid for 10 minutes',
             'user_id' => $user->id,
             //  'token' => $token,
                 
             ]);
 
 }
+
+// change password by validation the old password
+
+public function changePassword(Request $request){
+    $validator = Validator::make($request->all(), [
+        'old_password' => 'required|min:6',
+        'password' => 'required|min:6',
+        // 'password_confirmation' => 'required|min:6|same:password'
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $validator->errors()->first(),
+            ], 422);
+        }
+        $user = $request->user();
+        if(!Hash::check($request->old_password, $user->password)){
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Old password is incorrect',
+                ], 401);
+            }
+            $user->password = bcrypt($request->password);
+            $user->save();
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Password successfully changed',
+                ], 200);
+            }
 
 
     

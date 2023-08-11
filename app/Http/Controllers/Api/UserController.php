@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\Gallery;
 
 class UserController extends Controller
 {
@@ -101,6 +102,46 @@ class UserController extends Controller
         'user' => $user
     ]);
 }
+
+//accept user photos url and store
+public function uploadUserPhoto(Request $request){
+    $user = Auth::user();
+
+    // Ensure 'photos' key exists and it's an array
+    $photos = $request->get('photos');
+    if (!$photos || !is_array($photos)) {
+        return response()->json([
+            'status' => 'error',
+            'message' => 'No photos provided or invalid format'
+        ], 400);
+    }
+
+    // Loop through each photo URL and save
+    foreach ($photos as $photoUrl) {
+        $gallery = new Gallery();
+        $gallery->user = $user->id;
+        $gallery->image = $photoUrl;
+        $gallery->save();
+    }
+
+    return response()->json([
+        'status' => 'success',
+        'message' => 'Photos uploaded successfully'
+    ]);
+    }
+
+
+    // get user photos
+    public function getUserPhotos($id){
+        $user = Auth::user();
+        $photos = Gallery::where('user', $id)->get();
+        return response()->json([
+            'status' => 'success',
+            'photos' => $photos
+            ]);
+            }
+
+
 
 //get a username and check if exist or available
 

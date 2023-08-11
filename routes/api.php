@@ -23,6 +23,12 @@ Route::get('/userProfile', [UserController::class, 'userProfile']);
 Route::patch('/updateUser', [UserController::class, 'updateUser']);
 Route::get('/username', [UserController::class, 'checkUsername']);
 Route::get('/users', [UserController::class, 'index']);
+// change password
+Route::post('/changePassword', [AuthController::class, 'changePassword']);
+//upload user photo
+Route::post('/uploadUserPhoto', [UserController::class, 'uploadUserPhoto']);
+//get user photos
+Route::get('/getUserPhotos/{id}', [UserController::class, 'getUserPhotos']);
 
 
 // Route::group([
