@@ -17,7 +17,7 @@ class AuthController extends Controller
     // use AuthenticatesUsers;
 
 
-
+//add middleware
     public function __construct() {
         $this->middleware('auth:api', [
             'except' => [
