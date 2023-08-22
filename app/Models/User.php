@@ -54,7 +54,7 @@ class User extends Authenticatable implements JWTSubject
      */
     public function generateCode()
     {
-        $code = rand(1000, 999999);
+        $code = rand(100000, 999999);
   
         UserEmailCode::updateOrCreate(
             [ 'user_id' => auth()->user()->id ],
