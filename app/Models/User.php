@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Gallery;
 use Exception;
 use Mail;
 use App\Mail\SendEmailCode;
@@ -27,6 +28,22 @@ class User extends Authenticatable implements JWTSubject
         'gender',
         'password',
     ];
+
+
+    public function gallery()
+    {
+        return $this->hasMany(Gallery::class);
+    }
+
+    public function toArray()
+    {
+        $data = parent::toArray();
+
+        // Include gallery data
+        $data['gallery'] = $this->gallery;
+
+        return $data;
+    }
 
     /**
      * The attributes that should be hidden for serialization.
