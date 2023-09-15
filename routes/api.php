@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
+use Chatify\Http\Controllers\MessagesController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -31,6 +32,10 @@ Route::post('/uploadUserPhoto', [UserController::class, 'uploadUserPhoto']);
 Route::get('/getUserPhotos/{id}', [UserController::class, 'getUserPhotos']);
 // get individual user data
 Route::get('/getUserData/{id}', [UserController::class, 'getUserData']);
+
+//message routes
+Route::post('/token', [UserController::class, 'token']);
+
 
 
 // Route::group([

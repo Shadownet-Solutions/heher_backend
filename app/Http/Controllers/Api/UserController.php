@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Gallery;
+use Illuminate\Support\Facades\Http;
+use GuzzleHttp\Client;
+use App\Classes\AgoraDynamicKey\RtcTokenBuilder;
+
 
 class UserController extends Controller
 {
@@ -181,6 +185,69 @@ public function checkUsername(Request $request)
                 ]);
             }
         }
+
+ // generate agora token for user
+ public function Token(Request $request){
+    $user = Auth::user();
+    $appId = env('AGORA_APP_ID');
+    $appCertificate = env('AGORA_APP_CERTIFICATE');
+    $channelName = $request->channelName;
+    $uid = $user->id;
+    $role = $request->role; // publisher or subscriber
+
+// generate token
+    $token = RtcTokenBuilder::buildTokenWithUserAccount($appId, $appCertificate, $channelName, $uid, $role, 3600);
+    if ($token) {
+        return response()->json([
+            'status' => 'success',
+            'token' => $token
+            ]);
+    } else {
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Token generation failed'
+            ], 500);
+        }
+    
+
+
+    //generate token
+    // $client = new Client();
+    // $client->post("https://api.agora.io/v1/token/rtc/developer/6bc9d7887ca949e88677a4ba2809a0c0/generate", [
+    //     'verify' => false,
+    //     'json' => [
+    //         'key' => $appId,
+    //         'channelName' => $channelName,
+    //         'uid' => $uid,
+    //         'role' => $role
+    //     ],
+    //     'headers' => [ 
+            
+    //         'Content-Type' => 'application/json',
+    //         'Authorization' => 'Basic ' . base64_encode($appId . ':' . $appCertificate),
+    //     ],
+    // ]);
+
+    // $token = json_decode($response->getBody()->getContents());
+    // if ($token) {
+    //     return response()->json([
+    //         'status' => 'success',
+    //         'token' => $token->token
+    //         ]);
+    // } else {
+    //     return response()->json([
+    //         'status' => 'error',
+    //         'message' => 'Token generation failed'
+    //         ], 500);
+
+
+
+
+    //     }
+
+    
+ }
+
 
 
 

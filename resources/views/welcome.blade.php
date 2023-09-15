@@ -24,8 +24,8 @@
         
 
         <h2>Heher Api </h2>
-        <iframe src="https://documenter.getpostman.com/view/15137238/2s946o2opj" frameborder="0" width="100%" height="800px" allowfullscreen></iframe>
-        <p><a target="_blank" href="https://documenter.getpostman.com/view/15137238/2s946o2opj">Open in New tab</a></p>
+        <!-- <iframe src="https://documenter.getpostman.com/view/15137238/2s946o2opj" frameborder="0" width="100%" height="800px" allowfullscreen></iframe> -->
+        <a target="_blank" href="https://documenter.getpostman.com/view/15137238/2s946o2opj">Open documentation in New tab</a>
         </div>
     </body>
 </html>
