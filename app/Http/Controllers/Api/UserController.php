@@ -191,7 +191,7 @@ public function checkUsername(Request $request)
     $user = Auth::user();
     $appId = env('AGORA_APP_ID');
     $appCertificate = env('AGORA_APP_CERTIFICATE');
-    $server_key = env('AGORA_SERVER_KEY');
+    $server_key = env('AGORA_SERVER_KEY'); //this is the server fcm key
     $channelName = $request->channelName;
     $uid = $user->id;
     $role = $request->role; // publisher or subscriber
