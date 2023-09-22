@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('username')->unique()->nullable();
-            $table->string('user_token')->nullable();
+            $table->string('device_token')->nullable();
             $table->string('gender')->nullable();
             $table->string('phone')->nullable();
             $table->date('birthday')->nullable();

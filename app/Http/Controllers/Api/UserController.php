@@ -200,7 +200,8 @@ public function checkUsername(Request $request)
     if ($token) {
         return response()->json([
             'status' => 'success',
-            'token' => $token
+            'token' => $token,
+            'agora_app_id' => $appId
             ]);
     } else {
         return response()->json([
