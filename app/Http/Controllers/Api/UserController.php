@@ -191,6 +191,7 @@ public function checkUsername(Request $request)
     $user = Auth::user();
     $appId = env('AGORA_APP_ID');
     $appCertificate = env('AGORA_APP_CERTIFICATE');
+    $server_key = env('AGORA_SERVER_KEY');
     $channelName = $request->channelName;
     $uid = $user->id;
     $role = $request->role; // publisher or subscriber
@@ -201,7 +202,8 @@ public function checkUsername(Request $request)
         return response()->json([
             'status' => 'success',
             'token' => $token,
-            'agora_app_id' => $appId
+            'agora_app_id' => $appId,
+            'agora_server_key' => $server_key,
             ]);
     } else {
         return response()->json([
