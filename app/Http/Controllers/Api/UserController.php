@@ -204,7 +204,7 @@ public function checkUsername(Request $request)
     $server_key = env('AGORA_SERVER_KEY'); //this is the server fcm key
     $channelName = $request->channelName;
     $userAccount = $user->id;
-    $priviledeExpireTs = 3600;
+    $priviledeExpireTs = time() + 3600;
     $uid = $user->id;
     $role = $request->role; // publisher or subscriber
 
