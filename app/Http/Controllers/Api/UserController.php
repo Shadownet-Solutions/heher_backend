@@ -193,15 +193,19 @@ public function checkUsername(Request $request)
  // generate agora token for user
  public function Token(Request $request){
     $user = Auth::user();
+
+
     $appId = env('AGORA_APP_ID');
     $appCertificate = env('AGORA_APP_CERTIFICATE');
     $server_key = env('AGORA_SERVER_KEY'); //this is the server fcm key
     $channelName = $request->channelName;
+    $userAccount = $user->id;
+    $priviledeExpireTs = 3600;
     $uid = $user->id;
     $role = $request->role; // publisher or subscriber
 
 // generate token
-    $token = RtcTokenBuilder::buildTokenWithUserAccount($appId, $appCertificate, $channelName, $uid, $role, 3600);
+    $token = RtcTokenBuilder::buildTokenWithUserAccount($appId, $appCertificate, $channelName, $userAccount, $role, $priviledeExpireTs);
     if ($token) {
         return response()->json([
             'status' => 'success',

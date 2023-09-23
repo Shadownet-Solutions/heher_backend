@@ -1,6 +1,7 @@
 <?php
-
 namespace App\Classes\AgoraDynamicKey;
+use DateTime;
+use DateTimeZone;
 
 class Message
 {
@@ -11,7 +12,7 @@ class Message
     {
         $this->salt = rand(0, 100000);
 
-        $date = new \DateTime("now", new \DateTimeZone('UTC'));
+        $date = new DateTime("now", new DateTimeZone('UTC'));
         $this->ts = $date->getTimestamp() + 24 * 3600;
 
         $this->privileges = array();
@@ -188,5 +189,3 @@ function packString($value)
 {
     return pack("v", strlen($value)) . $value;
 }
-
-?>

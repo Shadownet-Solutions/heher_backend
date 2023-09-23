@@ -3,7 +3,7 @@
 namespace App\Classes\AgoraDynamicKey;
 
 
-// require_once "AccessToken.php";
+ require_once "AccessToken.php";
 
 
 // use AccessToken;
@@ -45,18 +45,26 @@ class RtcTokenBuilder
     #                    1/1/1970. If, for example, you want to access the
     #                    Agora Service within 10 minutes after the token is 
     #                    generated, set expireTimestamp as the current 
-    public static function buildTokenWithUserAccount($appId, $appCertificate, $channelName, $account, $role, $tokenExpire, $privilegeExpire = 0)
+    public static function buildTokenWithUserAccount($appId, $appCertificate, $channelName, $userAccount, $role, $privilegeExpireTs)
     {
-        $token = new AccessToken($appId, $appCertificate, $tokenExpire);
-        // $serviceRtc = new ServiceRtc($channelName, $account);
-
-        // $serviceRtc->addPrivilege($serviceRtc::PRIVILEGE_JOIN_CHANNEL, $privilegeExpire);
-        // if ($role == self::ROLE_PUBLISHER) {
-        //     $serviceRtc->addPrivilege($serviceRtc::PRIVILEGE_PUBLISH_AUDIO_STREAM, $privilegeExpire);
-        //     $serviceRtc->addPrivilege($serviceRtc::PRIVILEGE_PUBLISH_VIDEO_STREAM, $privilegeExpire);
-        //     $serviceRtc->addPrivilege($serviceRtc::PRIVILEGE_PUBLISH_DATA_STREAM, $privilegeExpire);
-        // }
-        // $token->addService($serviceRtc);
+        
+        $token = AccessToken::init($appId, $appCertificate, $channelName, $userAccount);
+        if ($token === null) {
+            // Handle the case where initialization failed
+            // You can log an error, throw an exception, or take appropriate action.
+            // For demonstration, we'll return an error message.
+            return "Token initialization failed";
+        }
+        $Privileges = AccessToken::Privileges;
+        $token->addPrivilege($Privileges["kJoinChannel"], $privilegeExpireTs);
+        if(($role == RtcTokenBuilder::RoleAttendee) ||
+            ($role == RtcTokenBuilder::RolePublisher) ||
+            ($role == RtcTokenBuilder::RoleAdmin))
+        {
+            $token->addPrivilege($Privileges["kPublishVideoStream"], $privilegeExpireTs);
+            $token->addPrivilege($Privileges["kPublishAudioStream"], $privilegeExpireTs);
+            $token->addPrivilege($Privileges["kPublishDataStream"], $privilegeExpireTs);
+        }
 
         return $token->build();
     }
