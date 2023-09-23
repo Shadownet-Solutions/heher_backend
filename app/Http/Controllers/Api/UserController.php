@@ -59,8 +59,12 @@ class UserController extends Controller
         $user->phone = $request->phone;
     }
 
-    if ($request->has('device_toekn')) {
+    if ($request->has('device_token')) {
         $user->device_token = $request->device_token;
+    }
+
+    if ($request->has('gender')) {
+        $user->gender = $request->gender;
     }
 
     if ($request->has('birthday')) {
