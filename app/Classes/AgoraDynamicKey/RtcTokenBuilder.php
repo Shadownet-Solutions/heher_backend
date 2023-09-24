@@ -51,8 +51,6 @@ class RtcTokenBuilder
         $token = AccessToken::init($appId, $appCertificate, $channelName, $userAccount);
         if ($token === null) {
             // Handle the case where initialization failed
-            // You can log an error, throw an exception, or take appropriate action.
-            // For demonstration, we'll return an error message.
             return "Token initialization failed";
         }
         $Privileges = AccessToken::Privileges;

@@ -198,6 +198,9 @@ public function checkUsername(Request $request)
  public function Token(Request $request){
     $user = Auth::user();
 
+    //return temporary token
+    
+
 
     $appId = env('AGORA_APP_ID');
     $appCertificate = env('AGORA_APP_CERTIFICATE');
@@ -207,6 +210,14 @@ public function checkUsername(Request $request)
     $priviledeExpireTs = time() + 3600;
     $uid = $user->id;
     $role = $request->role; // publisher or subscriber
+
+    //retrun temparary token
+    return response()->json([
+        'status' => 'success',
+        'token' => '007eJxTYNgpx2tX7HTOrvPglguO60Pu5is+3ROmrXHLTSzCSfDRPUkFBrOkZMsUcwsL8+RESxPLVAsLM3PzRJOkRCMLA8tEg2SD6a/4UxsCGRmYPscxMTJAIIjPzGAYb8TAAADEdx0G',
+        'agora_app_id' => $appId,
+        'agora_server_key' => $server_key,
+        ]);
 
 // generate token
     $token = RtcTokenBuilder::buildTokenWithUserAccount($appId, $appCertificate, $channelName, $userAccount, $role, $priviledeExpireTs);
