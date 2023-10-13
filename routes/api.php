@@ -36,7 +36,8 @@ Route::get('/getUserData/{id}', [UserController::class, 'getUserData']);
 //message routes
 Route::post('/token', [UserController::class, 'token']);
 
-
+//get referer link
+Route::get('/referrer', [UserController::class, 'getRefererLink']);
 
 // Route::group([
 //     'middleware' => 'api',

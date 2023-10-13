@@ -275,6 +275,17 @@ public function checkUsername(Request $request)
  }
 
 
+ //get referral link
+ public function getRefererLink(){
+    $user = Auth::user();
+    $referral_link = "https://www.he-her.com?referral=" . $user->username;
+    return response()->json([
+        'status' => 'success',
+        'referral_link' => $referral_link
+        ]);
+ }
+
+
 
 
 
