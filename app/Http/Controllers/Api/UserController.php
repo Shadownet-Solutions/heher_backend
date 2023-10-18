@@ -11,6 +11,14 @@ use Illuminate\Support\Facades\Http;
 use GuzzleHttp\Client;
 use App\Classes\AgoraDynamicKey\RtcTokenBuilder;
 
+use PayPal\Api\Plan;
+use PayPal\Api\MerchantPreferences;
+use PayPal\Api\Currency;
+use PayPal\Api\Patch;
+use PayPal\Api\PatchRequest;
+use PayPal\Common\PayPalModel;
+
+
 
 class UserController extends Controller
 {
@@ -212,12 +220,12 @@ public function checkUsername(Request $request)
     $role = $request->role; // publisher or subscriber
 
     //retrun temparary token
-    return response()->json([
-        'status' => 'success',
-        'token' => '007eJxTYOD9+O6mrkFm9+P3K/dqWT26tUt/E+tBB/FJDIctZ5Qe7bVQYDBLSrZMMbewME9OtDSxTLWwMDM3TzRJSjSyMLBMNEg2+HhHJ7UhkJFB1O0NAyMUgvjMDIbxRgwMAHf0H0Y=',
-        'agora_app_id' => $appId,
-        'agora_server_key' => $server_key,
-        ]);
+    // return response()->json([
+    //     'status' => 'success',
+    //     'token' => '007eJxTYOD9+O6mrkFm9+P3K/dqWT26tUt/E+tBB/FJDIctZ5Qe7bVQYDBLSrZMMbewME9OtDSxTLWwMDM3TzRJSjSyMLBMNEg2+HhHJ7UhkJFB1O0NAyMUgvjMDIbxRgwMAHf0H0Y=',
+    //     'agora_app_id' => $appId,
+    //     'agora_server_key' => $server_key,
+    //     ]);
 
 // generate token
     $token = RtcTokenBuilder::buildTokenWithUserAccount($appId, $appCertificate, $channelName, $userAccount, $role, $priviledeExpireTs);
@@ -285,7 +293,78 @@ public function checkUsername(Request $request)
         ]);
  }
 
+ //paypal payment
+public function payment(){
+    $clientId = env('PAYPAL_CLIENT_ID');
+    $clientSecret = env('PAYPAL_CLIENT_SECRET');
 
+    $apiContext = new \PayPal\Rest\ApiContext(
+        new \PayPal\Auth\OAuthTokenCredential($clientId, $clientSecret)
+    );
+
+    // Step 1: Create a Billing Plan
+    $plan = new Plan();
+    $plan->setName('Heher Premium')
+    ->setDescription('Monthly subscription for heher app')
+    ->setType('fixed');
+
+    // Set up billing cycles
+    $paymentDefinition = new \PayPal\Api\PaymentDefinition();
+    $paymentDefinition->setName('heher Premium')
+    ->setType('REGULAR')
+    ->setFrequency('Month') // Monthly subscription
+    ->setFrequencyInterval('1')
+    ->setCycles('12'); // Number of billing cycles
+
+    // Set up amount and currency
+    $currency = new Currency();
+    $currency->setCurrency('USD')
+    ->setValue('5.00'); // Set your subscription amount here
+
+    $paymentDefinition->setAmount($currency);
+
+    $plan->setPaymentDefinitions([$paymentDefinition]);
+    // Activate the plan
+    $plan->setState('ACTIVE');
+    $createdPlan = $plan->create($apiContext);
+
+    // Step 2: Activate the Billing Plan
+    $patch = new Patch();
+    $patch->setOp('replace')
+    ->setPath('/')
+    ->setValue(new PayPalModel('{"state":"ACTIVE"}'));
+
+    $patchRequest = new PatchRequest();
+    $patchRequest->addPatch($patch);
+
+    $createdPlan->update($patchRequest, $apiContext);
+
+    // Step 3: Create a Billing Agreement
+    $agreement = new \PayPal\Api\Agreement();
+    $agreement->setName('Subscription Agreement')
+        ->setDescription('Subscription agreement for awesome service')
+    ->setStartDate(date('Y-m-d\TH:i:s\Z', strtotime('+1 day'))); // Start date is one day from now
+
+// Set up merchant preferences
+    $merchantPreferences = new MerchantPreferences();
+    $merchantPreferences->setReturnUrl('YOUR_RETURN_URL')
+    ->setCancelUrl('YOUR_CANCEL_URL')
+    ->setAutoBillAmount('yes')
+    ->setInitialFailAmountAction('CONTINUE')
+    ->setMaxFailAttempts('0');
+
+    $agreement->setMerchantPreferences($merchantPreferences);
+    $agreement->setPlan($createdPlan);
+
+    // Create the agreement
+    $agreement = $agreement->create($apiContext);
+
+    // Get the approval URL
+    $approvalUrl = $agreement->getApprovalLink();
+
+    // Redirect the user to PayPal for approval
+    header("Location: $approvalUrl");
+}
 
 
 

@@ -11,6 +11,7 @@
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
+        "paypal/rest-api-sdk-php": "^1.6",
         "php-open-source-saver/jwt-auth": "^2.1"
     },
     "require-dev": {

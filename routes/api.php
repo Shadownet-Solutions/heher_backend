@@ -1,3 +1,17 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <?php
 
 use Illuminate\Http\Request;
@@ -38,7 +52,8 @@ Route::post('/token', [UserController::class, 'token']);
 
 //get referer link
 Route::get('/referrer', [UserController::class, 'getRefererLink']);
-
+//payment
+Route::post('/payment', [UserController::class, 'payment']);
 // Route::group([
 //     'middleware' => 'api',
 //     'prefix' => 'auth'
