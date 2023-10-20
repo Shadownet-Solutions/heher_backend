@@ -218,15 +218,16 @@ public function checkUsername(Request $request)
     $priviledeExpireTs = time() + 3600;
     $uid = $user->id;
     $role = $request->role; // publisher or subscriber
+
     //token base 007eJxTYLihnqLPNEu46mFwuPCqT 
             //   007eJxTYNCcxlO731Dr0qqnXic
     //retrun temparary token
-    return response()->json([
-        'status' => 'success',
-        'token' => '007eJxTYNCcxlO731Dr0qqnXic/7S1eFHZ6QkCvRvE7/1BxxjnVYpoKDGZJyZYp5hYW5smJliaWqRYWZubmiSZJiUYWBpaJBskGnguMUhsCGRnyDBOYGRkgEMRnZjCMN2JgAADb3Ryb',
-        'agora_app_id' => $appId,
-        'agora_server_key' => $server_key,
-        ]);
+    // return response()->json([
+    //     'status' => 'success',
+    //     'token' => '007eJxTYNCcxlO731Dr0qqnXic/7S1eFHZ6QkCvRvE7/1BxxjnVYpoKDGZJyZYp5hYW5smJliaWqRYWZubmiSZJiUYWBpaJBskGnguMUhsCGRnyDBOYGRkgEMRnZjCMN2JgAADb3Ryb',
+    //     'agora_app_id' => $appId,
+    //     'agora_server_key' => $server_key,
+    //     ]);
 
 // generate token
     $token = RtcTokenBuilder::buildTokenWithUserAccount($appId, $appCertificate, $channelName, $userAccount, $role, $priviledeExpireTs);
