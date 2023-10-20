@@ -365,6 +365,28 @@ public function payment(){
     // Redirect the user to PayPal for approval
     header("Location: $approvalUrl");
 }
+    //soft delete account
+    public function deleteAccount(){
+        $requester = Auth::user();
+        try {
+            $user = User::findOrFail($requester->id);
+    
+            // Soft delete the user
+            $user->delete();
+    
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Account deleted successfully.',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+    
+        
 
 
 

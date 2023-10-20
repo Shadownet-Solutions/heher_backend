@@ -37,6 +37,8 @@ Route::post('/completeSignIn', [AuthController::class, 'completeSignIn']);
 Route::get('/userProfile', [UserController::class, 'userProfile']);
 Route::patch('/updateUser', [UserController::class, 'updateUser']);
 Route::get('/username', [UserController::class, 'checkUsername']);
+//delete account
+Route::delete('/deleteAccount', [UserController::class, 'deleteAccount']);
 Route::get('/users', [UserController::class, 'index']);
 // change password
 Route::post('/changePassword', [AuthController::class, 'changePassword']);
