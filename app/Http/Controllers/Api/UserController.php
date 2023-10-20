@@ -210,7 +210,7 @@ public function checkUsername(Request $request)
     
 
 
-    $appId = env('AGORA_APP_ID');
+    $appID = env('AGORA_APP_ID');
     $appCertificate = env('AGORA_APP_CERTIFICATE');
     $server_key = env('AGORA_SERVER_KEY'); //this is the server fcm key
     $channelName = $request->channelName;
@@ -222,20 +222,20 @@ public function checkUsername(Request $request)
     //token base 007eJxTYLihnqLPNEu46mFwuPCqT 
             //   007eJxTYNCcxlO731Dr0qqnXic
     //retrun temparary token
-    return response()->json([
-        'status' => 'success',
-        'token' => '007eJxTYNCcxlO731Dr0qqnXic/7S1eFHZ6QkCvRvE7/1BxxjnVYpoKDGZJyZYp5hYW5smJliaWqRYWZubmiSZJiUYWBpaJBskGnguMUhsCGRnyDBOYGRkgEMRnZjCMN2JgAADb3Ryb',
-        'agora_app_id' => $appId,
-        'agora_server_key' => $server_key,
-        ]);
+    // return response()->json([
+    //     'status' => 'success',
+    //     'token' => '007eJxTYNCcxlO731Dr0qqnXic/7S1eFHZ6QkCvRvE7/1BxxjnVYpoKDGZJyZYp5hYW5smJliaWqRYWZubmiSZJiUYWBpaJBskGnguMUhsCGRnyDBOYGRkgEMRnZjCMN2JgAADb3Ryb',
+    //     'agora_app_id' => $appID,
+    //     'agora_server_key' => $server_key,
+    //     ]);
 
 // generate token
-    $token = RtcTokenBuilder::buildTokenWithUserAccount($appId, $appCertificate, $channelName, $userAccount, $role, $priviledeExpireTs);
+    $token = RtcTokenBuilder::buildTokenWithUserAccount($appID, $appCertificate, $channelName, $userAccount, $role, $priviledeExpireTs);
     if ($token) {
         return response()->json([
             'status' => 'success',
             'token' => $token,
-            'agora_app_id' => $appId,
+            'agora_app_id' => $appID,
             'agora_server_key' => $server_key,
             ]);
     } else {
@@ -252,7 +252,7 @@ public function checkUsername(Request $request)
     // $client->post("https://api.agora.io/v1/token/rtc/developer/6bc9d7887ca949e88677a4ba2809a0c0/generate", [
     //     'verify' => false,
     //     'json' => [
-    //         'key' => $appId,
+    //         'key' => $appID,
     //         'channelName' => $channelName,
     //         'uid' => $uid,
     //         'role' => $role
@@ -260,7 +260,7 @@ public function checkUsername(Request $request)
     //     'headers' => [ 
             
     //         'Content-Type' => 'application/json',
-    //         'Authorization' => 'Basic ' . base64_encode($appId . ':' . $appCertificate),
+    //         'Authorization' => 'Basic ' . base64_encode($appID . ':' . $appCertificate),
     //     ],
     // ]);
 

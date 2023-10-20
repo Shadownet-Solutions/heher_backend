@@ -45,10 +45,10 @@ class RtcTokenBuilder
     #                    1/1/1970. If, for example, you want to access the
     #                    Agora Service within 10 minutes after the token is 
     #                    generated, set expireTimestamp as the current 
-    public static function buildTokenWithUserAccount($appId, $appCertificate, $channelName, $userAccount, $role, $privilegeExpireTs)
+    public static function buildTokenWithUserAccount($appID, $appCertificate, $channelName, $userAccount, $role, $privilegeExpireTs)
     {
         
-        $token = AccessToken::init($appId, $appCertificate, $channelName, $userAccount);
+        $token = AccessToken::init($appID, $appCertificate, $channelName, $userAccount);
         if ($token === null) {
             // Handle the case where initialization failed
             return "Token initialization failed";
