@@ -221,13 +221,14 @@ public function checkUsername(Request $request)
 
     //token base 007eJxTYLihnqLPNEu46mFwuPCqT 
             //   007eJxTYNCcxlO731Dr0qqnXic
+            //temp 007eJxTYNCcxlO731Dr0qqnXic/7S1eFHZ6QkCvRvE7/1BxxjnVYpoKDGZJyZYp5hYW5smJliaWqRYWZubmiSZJiUYWBpaJBskGnguMUhsCGRnyDBOYGRkgEMRnZjCMN2JgAADb3Ryb
     //retrun temparary token
-    // return response()->json([
-    //     'status' => 'success',
-    //     'token' => '007eJxTYNCcxlO731Dr0qqnXic/7S1eFHZ6QkCvRvE7/1BxxjnVYpoKDGZJyZYp5hYW5smJliaWqRYWZubmiSZJiUYWBpaJBskGnguMUhsCGRnyDBOYGRkgEMRnZjCMN2JgAADb3Ryb',
-    //     'agora_app_id' => $appID,
-    //     'agora_server_key' => $server_key,
-    //     ]);
+    return response()->json([
+        'status' => 'success',
+        'token' => '007eJxTYNCcxlO731Dr0qqnXic/7S1eFHZ6QkCvRvE7/1BxxjnVYpoKDGZJyZYp5hYW5smJliaWqRYWZubmiSZJiUYWBpaJBskGnguMUhsCGRnyDBOYGRkgEMRnZjCMN2JgAADb3Ryb',
+        'agora_app_id' => $appID,
+        'agora_server_key' => $server_key,
+        ]);
 
 // generate token
     $token = RtcTokenBuilder::buildTokenWithUserAccount($appID, $appCertificate, $channelName, $userAccount, $role, $priviledeExpireTs);
