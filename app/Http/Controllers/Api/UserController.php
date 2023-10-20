@@ -225,7 +225,7 @@ public function checkUsername(Request $request)
     //retrun temparary token
     return response()->json([
         'status' => 'success',
-        'token' => '007eJxTYGiXDc1K/VnjYXBk4sz6w7un5GscvcFROWPB2033DqsaGK1QYDBLSrZMMbewME9OtDSxTLWwMDM3TzRJSjSyMLBMNEg2CN5slCrAx8Cw1duZmZGBkYEFiEF8JjDJDCZZoGzDeCNGBhMAbP8d/A==',
+        'token' => '007eJxTYGiXDc1K/VnjYXBk4sz6w7un5GscvcFROWPB2033DqsaGK1QYDBLSrZMMbewME9OtDSxTLWwMDM3TzRJSjSyMLBMNEg2CN5slCrAx8Cw1duZmZGBkYEFiEF8JjDJDCZZoGzDeCNGBhMAbP8d',
         'agora_app_id' => $appID,
         'agora_server_key' => $server_key,
         ]);
