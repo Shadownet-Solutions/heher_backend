@@ -10,6 +10,7 @@ use App\Models\Gallery;
 use Illuminate\Support\Facades\Http;
 use GuzzleHttp\Client;
 use App\Classes\AgoraDynamicKey\RtcTokenBuilder;
+use App\Classes\AgoraDynamicKey\RtcTokenBuilder2;
 
 use PayPal\Api\Plan;
 use PayPal\Api\MerchantPreferences;
@@ -225,13 +226,13 @@ public function checkUsername(Request $request)
     //retrun temparary token
     return response()->json([
         'status' => 'success',
-        'token' => '007eJxTYNC56eXutbJk/iO+/M4X+w48PLRn7vQZcZfDMrdsMd+gYVSgwGCWlGyZYm5hYZ6caGlimWphYWZunmiSlGhkYWCZaJBs8OiWUaoAHwPDvsuVTIwMjAwsQAziM4FJZjDJAmUbxhtxMRhZWBgZmxgamRsDABwKIeM=',
+        'token' => '007eJxTYJAtWxpblHzXPDhOoevY5+s79spVWnpV/0lhfVFRXu4jF6bAYJaUbJlibmFhnpxoaWKZamFhZm6eaJKUaGRhYJlokGxw7o5RqgAfAwNbrgQDIxCyADGIzwQmmcEkC5RtGG/EyGACANL5HDs=',
         'agora_app_id' => $appID,
         'agora_server_key' => $server_key,
         ]);
 
 // generate token
-    $token = RtcTokenBuilder::buildTokenWithUserAccount($appID, $appCertificate, $channelName, $userAccount, $role, $priviledeExpireTs);
+    $token = RtcTokenBuilder2::buildTokenWithUserAccount($appID, $appCertificate, $channelName, $userAccount, $role, $priviledeExpireTs);
     if ($token) {
         return response()->json([
             'status' => 'success',
