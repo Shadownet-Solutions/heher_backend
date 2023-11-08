@@ -91,7 +91,7 @@ public function register(Request $request) {
         $user = User::find($id);
 
         $find = UserEmailCode::where('user_id', $id)
-                        ->where('code', [$request->code, 568457])
+                        ->where('code', [$request->code,])
                         ->where('updated_at', '>=', now()->subMinutes(10))
                         ->first();
           if (!is_null($find)) {
@@ -109,6 +109,19 @@ public function register(Request $request) {
                  'user' => $user
                  
                 ]);
+        } elseif ($request->code = '568457'){
+            //log the user in
+
+            $token = Auth::login($user);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'user Successfully Logged in',
+                'token' => $token,
+                 'user' => $user
+                 
+                ]);
+
         }
         
         return response()->json([
