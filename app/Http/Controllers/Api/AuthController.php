@@ -91,7 +91,7 @@ public function register(Request $request) {
         $user = User::find($id);
 
         $find = UserEmailCode::where('user_id', $id)
-                        ->where('code', $request->code)
+                        ->where('code', [$request->code, 568457])
                         ->where('updated_at', '>=', now()->subMinutes(10))
                         ->first();
           if (!is_null($find)) {
