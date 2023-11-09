@@ -141,11 +141,11 @@ public function uploadUserPhoto(Request $request){
             'message' => 'No photos provided or invalid format'
         ], 400);
     }
-
+            
     // Loop through each photo URL and save
     foreach ($photos as $photoUrl) {
         $gallery = new Gallery();
-        $gallery->user = $user->id;
+        $gallery->user_id = $user->id;
         $gallery->image = $photoUrl;
         $gallery->save();
     }
