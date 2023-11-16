@@ -42,6 +42,9 @@ Route::delete('/deleteAccount', [UserController::class, 'deleteAccount']);
 Route::get('/users', [UserController::class, 'index']);
 // change password
 Route::post('/changePassword', [AuthController::class, 'changePassword']);
+//forgot password
+Route::post('/forgotPassword', [AuthController::class, 'forgotPassword']);
+
 //upload user photo
 Route::post('/uploadUserPhoto', [UserController::class, 'uploadUserPhoto']);
 //get user photos
