@@ -1,17 +1,3 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <?php
 
 use Illuminate\Http\Request;
@@ -43,7 +29,10 @@ Route::get('/users', [UserController::class, 'index']);
 // change password
 Route::post('/changePassword', [AuthController::class, 'changePassword']);
 //forgot password
-Route::post('/forgotPassword', [AuthController::class, 'forgotPassword']);
+Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
+
+//complete forgot password
+Route::post('/complete-forgot-password', [AuthController::class, 'completeForgotPassword']);
 
 //upload user photo
 Route::post('/uploadUserPhoto', [UserController::class, 'uploadUserPhoto']);

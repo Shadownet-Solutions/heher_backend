@@ -13,6 +13,10 @@ use App\Models\Gallery;
 use Exception;
 use Mail;
 use App\Mail\SendEmailCode;
+use App\Mail\SendResetPassword;
+// use App\Models\UserEmailCode;
+// use App\Models\ResetPassword;
+
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -71,6 +75,8 @@ class User extends Authenticatable implements JWTSubject
      * 
      * @return response()
      */
+
+    //  send email code
     public function generateCode()
     {
         $code = rand(100000, 999999);
@@ -89,6 +95,32 @@ class User extends Authenticatable implements JWTSubject
              
             Mail::to(auth()->user()->email)->send(new SendEmailCode($details));
     
+        } catch (Exception $e) {
+            info("Error: ". $e->getMessage());
+        }
+    }
+
+    // genete code for reset password
+    public function generateResetCode($user)
+    {
+        $code = rand(100000, 999999);
+
+        ResetPassword::updateOrCreate(
+            [ 'user_id' => $user->id ],
+            // [ 'email' => $user->email ],
+            [ 'code' => $code ]
+        );
+    
+    
+        try {
+  
+            $details = [
+                'name' => $user->name,
+                'code' => $code
+            ];
+
+            Mail::to($user->email)->send(new SendResetPassword($details));
+
         } catch (Exception $e) {
             info("Error: ". $e->getMessage());
         }

@@ -10,6 +10,7 @@ use App\Models\User;
 use Validator;
 use App\Models\UserEmailCode;
 use Hash;
+use App\Models\ResetPassword;
 
 class AuthController extends Controller
 {
@@ -24,6 +25,9 @@ class AuthController extends Controller
                 'login',
                 'register',
                 'completeSignIn',
+                'resend',
+                'forgotPassword',
+                'completeForgotPassword'
                 ]
         ]);
     }
@@ -227,6 +231,112 @@ public function changePassword(Request $request){
             }
 
 
+            // forgot password and get token to change password by email
+            public function forgotPassword(Request $request){
+                
+
+                try {
+                    // Validate email
+                    $validator = Validator::make($request->all(), [
+                        'email' => 'required|email',
+                    ]);
+            
+                    // Return error if validator fails
+                    if ($validator->fails()) {
+                        return response()->json([
+                            'status' => "error",
+                            'error' => $validator->errors()->first(),
+                        ], 422);
+                    }
+
+                    $user = User::where('email', $request->email)->first();
+
+                    //return error if user does not exist
+                    if (is_null($user)) {
+                        return response()->json([
+                            'status' => "error",
+                            'error' => 'User does not exist',
+                        ], 422);
+                    }
+                    
+            
+                    //call send email method from ResetPassword class
+                    $user->generateResetCode($user);
+                    
+            
+                    // Return success response
+                    return response()->json([
+                        'status' => "success",
+                        'message' => 'Password reset email sent',
+                        'user_id' => $user->id,
+                    ], 200);
+                } catch (\Exception $e) {
+                    // Return error response if an exception occurs
+                    return response()->json([
+                        'status' => "error",
+                        'error' => 'Something went wrong',
+                    ], 500);
+                }
+
+            }
+
+            // complete forgot password
+            public function completeForgotPassword(Request $request){
+                // try {
+                    // Validate email
+                    $validator = Validator::make($request->all(), [
+                        'user_id' => 'required',
+                        'code' => 'required|min:5',
+                        'password' => 'required|min:6',
+                    ]);
+            
+                    // Return error if validator fails
+                    if ($validator->fails()) {
+                        return response()->json([
+                            'status' => "error",
+                            'error' => $validator->errors()->first(),
+                        ], 422);
+                    }
+
+                    $user = User::where('id', $request->user_id)->first();
+                    
+                    //return error if user does not exist
+                    if (is_null($user)) {
+                        return response()->json([
+                            'status' => "error",
+                            'error' => 'User does not exist',
+                        ], 422);
+                    }
+                    
+                    $find = ResetPassword::where('user_id', $user->id)
+                        ->where('code', [$request->code,])
+                        ->where('updated_at', '>=', now()->subMinutes(10))
+                        ->first();
+                    if (!is_null($find)) {
+                        $user->password = bcrypt($request->password);
+                        $user->save();
+                        return response()->json([
+                            'status' => "success",
+                            'message' => 'Password reset successful',
+                        ], 200);
+                    }
+            
+                    // Return success response
+                    return response()->json([
+                        'status' => "error",
+                        'error' => 'Invalid code',
+                    ], 422);
+                // } catch (\Exception $e) {
+                //     // Return error response if an exception occurs
+                //     return response()->json([
+                //         'status' => "error",
+                //         'error' => 'Something went wrong',
+                //     ], 500);
+                // }
+
+            }
+
+            
     
 
 }

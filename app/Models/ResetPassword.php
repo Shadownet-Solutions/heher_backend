@@ -10,13 +10,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Exception;
 use Mail;
 
-class UserEmailCode extends Model
+class ResetPassword extends Model
 {
     use HasFactory;
-    public $table = "user_email_codes";
-  
+    public $table = "reset_passwords";
+
     protected $fillable = [
         'user_id',
-        'code',
+        'email',
+        'code'
     ];
 }
